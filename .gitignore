@@ -1,1 +1,29 @@
+# Virtual environment
 venv/
+
+# Environment variables
+.env
+.env.*
+
+# Project commands text file
+project_commands.txt 
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg

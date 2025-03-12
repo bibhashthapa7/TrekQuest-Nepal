@@ -1,0 +1,6 @@
+Django
+djangorestframework
+djoser
+django-cors-headers
+psycopg2-binary
+python-dotenv
