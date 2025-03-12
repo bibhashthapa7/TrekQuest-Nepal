@@ -15,7 +15,7 @@ const TrekList = () => {
             <h1>Available Treks</h1>
             <ul>
                 {treks.map((trek) => (
-                    <li key={trek.id}>{trek.name} - {trek.location}</li>
+                    <li key={trek.id}>{trek.trek_name} - {trek.trip_grade}</li>
                 ))}
             </ul>
         </div>
