@@ -8,12 +8,22 @@ import './MainPage.css';
 const MainPage = () => {
     const navigate = useNavigate();
     const [treks, setTreks] = useState([]);
+    const [isSticky, setIsSticky] = useState(false);
 
     useEffect(() => {
         // Load treks
         API.get('treks/')
             .then((response) => setTreks(response.data))
             .catch((error) => console.log(error));
+
+        // Add scroll listener for sticky nav
+        const handleScroll = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            setIsSticky(scrollTop > 100);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const handleLoginClick = () => {
@@ -24,6 +34,9 @@ const MainPage = () => {
 
 
     const handleStartJourney = () => {
+        // Set sticky state immediately
+        setIsSticky(true);
+        
         // Scroll to the main content section
         const mainContent = document.querySelector('.main-content-wrapper');
         if (mainContent) {
@@ -39,7 +52,7 @@ const MainPage = () => {
             {/* Header */}
             <header className="main-header">
                 {/* Navigation Bar */}
-                <nav className="main-nav">
+                <nav className={`main-nav ${isSticky ? 'sticky' : ''}`}>
                     <div className="nav-links">
                         <button className="nav-link active">Home</button>
                         <button className="nav-link">Treks</button>

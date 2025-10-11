@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
+import backgroundImage from '../assets/images/background.png';
 import './Auth.css';
 
 const Auth = ({ onAuthSuccess }) => {
@@ -152,21 +153,24 @@ const Auth = ({ onAuthSuccess }) => {
     };
 
     return (
-        <div className="auth-container">
-            {/* Header */}
-            <div className="auth-back-button">
-                <button
-                    onClick={() => navigate('/')}
-                    className="btn-back"
-                >
-                    ← Back to Home
-                </button>
-            </div>
+        <div 
+            className="auth-container"
+            style={{ '--background-image': `url(${backgroundImage})` }}
+        >
+            {/* Navigation Bar */}
+            <nav className="auth-nav">
+                <div className="nav-links">
+                    <button className="nav-link" onClick={() => navigate('/')}>Home</button>
+                    <button className="nav-link">Treks</button>
+                    <button className="nav-link active">Login / Register</button>
+                </div>
+            </nav>
+
 
             {/* Auth Form */}
             <div className="auth-form-container">
                 <h2 className="auth-title">
-                    🏔️ {isLogin ? 'Welcome Back' : 'Join TrekQuest Nepal'}
+                    {isLogin ? 'Welcome Back' : 'Join TrekQuest Nepal'}
                 </h2>
             
             {user && (
