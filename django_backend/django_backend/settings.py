@@ -151,7 +151,7 @@ DJOSER = {
     'LOGIN_FIELD': 'username',
     'USER_CREATE_PASSWORD_RETYPE': False,
     'SERIALIZERS': {
-        'user_create': 'djoser.serializers.UserCreateSerializer',
+        'user_create': 'api.serializers.UserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer',
         'current_user': 'djoser.serializers.UserSerializer',
     },

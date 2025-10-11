@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
+import Navigation from './Navigation';
 import backgroundImage from '../assets/images/background.png';
 import './Auth.css';
 
-const Auth = ({ onAuthSuccess }) => {
+const Auth = () => {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({
@@ -15,25 +16,15 @@ const Auth = ({ onAuthSuccess }) => {
         email: ''
     });
     const [message, setMessage] = useState('');
-    const [user, setUser] = useState(null);
 
     // Check if user is already logged in
     useEffect(() => {
         const token = localStorage.getItem('access_token');
         if (token) {
-            API.get('user/profile/')
-                .then((response) => {
-                    setUser(response.data);
-                    // If already logged in, redirect to home or return URL
-                    const returnUrl = sessionStorage.getItem('returnUrl') || '/';
-                    sessionStorage.removeItem('returnUrl');
-                    navigate(returnUrl);
-                })
-                .catch((error) => {
-                    console.log('User not authenticated:', error);
-                    localStorage.removeItem('access_token');
-                    localStorage.removeItem('refresh_token');
-                });
+            // If already logged in, redirect to home or return URL
+            const returnUrl = sessionStorage.getItem('returnUrl') || '/';
+            sessionStorage.removeItem('returnUrl');
+            navigate(returnUrl);
         }
     }, [navigate]);
 
@@ -86,21 +77,12 @@ const Auth = ({ onAuthSuccess }) => {
                 localStorage.setItem('access_token', access);
                 localStorage.setItem('refresh_token', refresh);
                 
-                // Get user profile
-                const userResponse = await API.get('user/profile/', {
-                    headers: { Authorization: `Bearer ${access}` }
-                });
-                setUser(userResponse.data);
                 setMessage('Login successful!');
                 
                 // Navigate back to the previous page or home
                 const returnUrl = sessionStorage.getItem('returnUrl') || '/';
                 sessionStorage.removeItem('returnUrl');
                 navigate(returnUrl);
-                
-                if (onAuthSuccess) {
-                    onAuthSuccess(userResponse.data);
-                }
             } else {
                 // Register
                 console.log('Registration data being sent:', formData);
@@ -145,12 +127,6 @@ const Auth = ({ onAuthSuccess }) => {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        setUser(null);
-        setMessage('Logged out successfully!');
-    };
 
     return (
         <div 
@@ -158,13 +134,7 @@ const Auth = ({ onAuthSuccess }) => {
             style={{ '--background-image': `url(${backgroundImage})` }}
         >
             {/* Navigation Bar */}
-            <nav className="auth-nav">
-                <div className="nav-links">
-                    <button className="nav-link" onClick={() => navigate('/')}>Home</button>
-                    <button className="nav-link">Treks</button>
-                    <button className="nav-link active">Login / Register</button>
-                </div>
-            </nav>
+            <Navigation activePage="auth" />
 
 
             {/* Auth Form */}
@@ -173,27 +143,7 @@ const Auth = ({ onAuthSuccess }) => {
                     {isLogin ? 'Welcome Back' : 'Join TrekQuest Nepal'}
                 </h2>
             
-            {user && (
-                <div className="user-info">
-                    <h3>Welcome, {user.first_name}!</h3>
-                    <p>Email: {user.email}</p>
-                    <button onClick={handleLogout} className="btn-logout">
-                        Logout
-                    </button>
-                </div>
-            )}
 
-            {message && (
-                <div style={{ 
-                    background: message.includes('successful') ? '#d4edda' : '#f8d7da',
-                    color: message.includes('successful') ? '#155724' : '#721c24',
-                    padding: '10px',
-                    marginBottom: '20px',
-                    borderRadius: '5px'
-                }}>
-                    {message}
-                </div>
-            )}
 
             <form onSubmit={handleSubmit} className="auth-form">
                 {!isLogin && (

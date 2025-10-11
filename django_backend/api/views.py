@@ -1,10 +1,11 @@
 from rest_framework import generics, status
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth.models import User
 from .models import Trek, UserFavorite, UserProfile
 from .serializers import TrekSerializer, UserSerializer, UserFavoriteSerializer, UserProfileSerializer
+from datetime import datetime, timedelta
 
 class TrekListCreateView(generics.ListCreateAPIView):
     queryset = Trek.objects.all()
@@ -69,3 +70,46 @@ def remove_favorite(request, trek_id):
         return Response({'message': 'Trek removed from favorites'}, status=status.HTTP_200_OK)
     except UserFavorite.DoesNotExist:
         return Response({'error': 'Favorite not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def admin_stats(request):
+    """Get admin dashboard statistics"""
+    try:
+        # Get total counts
+        total_users = User.objects.count()
+        total_treks = Trek.objects.count()
+        total_favorites = UserFavorite.objects.count()
+        
+        # Get recent users (last 7 days)
+        week_ago = datetime.now() - timedelta(days=7)
+        recent_users = User.objects.filter(
+            date_joined__gte=week_ago
+        ).order_by('-date_joined')[:5]
+        
+        # Serialize recent users
+        recent_users_data = []
+        for user in recent_users:
+            recent_users_data.append({
+                'username': user.username,
+                'email': user.email,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'date_joined': user.date_joined,
+                'is_staff': user.is_staff
+            })
+        
+        stats = {
+            'totalUsers': total_users,
+            'totalTreks': total_treks,
+            'totalFavorites': total_favorites,
+            'recentUsers': recent_users_data
+        }
+        
+        return Response(stats, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response(
+            {'error': f'Failed to fetch admin stats: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )

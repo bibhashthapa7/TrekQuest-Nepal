@@ -13,4 +13,7 @@ urlpatterns = [
     # Favorites endpoints
     path('user/favorites/', views.user_favorites, name='user-favorites'),
     path('user/favorites/<int:trek_id>/', views.remove_favorite, name='remove-favorite'),
+    
+    # Admin endpoints
+    path('admin/stats/', views.admin_stats, name='admin-stats'),
 ]

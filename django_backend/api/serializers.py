@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Trek, UserFavorite, UserProfile
+import djoser.serializers
+
+class UserCreateSerializer(djoser.serializers.UserCreateSerializer):
+    class Meta(djoser.serializers.UserCreateSerializer.Meta):
+        fields = ['username', 'email', 'first_name', 'last_name', 'password']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'first_name', 'last_name', 'profile']
+        fields = ['id', 'email', 'username', 'first_name', 'last_name', 'is_staff', 'profile']
         read_only_fields = ['id']
 
 class TrekSerializer(serializers.ModelSerializer):

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 import Logo from './Logo';
+import Navigation from './Navigation';
 import backgroundImage from '../assets/images/background.png';
 import './MainPage.css';
 
@@ -26,13 +27,6 @@ const MainPage = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const handleLoginClick = () => {
-        // Store current page location for return navigation
-        sessionStorage.setItem('returnUrl', window.location.pathname);
-        navigate('/auth');
-    };
-
-
     const handleStartJourney = () => {
         // Set sticky state immediately
         setIsSticky(true);
@@ -52,13 +46,7 @@ const MainPage = () => {
             {/* Header */}
             <header className="main-header">
                 {/* Navigation Bar */}
-                <nav className={`main-nav ${isSticky ? 'sticky' : ''}`}>
-                    <div className="nav-links">
-                        <button className="nav-link active">Home</button>
-                        <button className="nav-link">Treks</button>
-                        <button className="nav-link" onClick={handleLoginClick}>Login / Register</button>
-                    </div>
-                </nav>
+                <Navigation activePage="home" isSticky={isSticky} />
                 
                 <div className="header-logo-section">
                     <Logo 
