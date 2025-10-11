@@ -1,0 +1,159 @@
+/* Logo Component Styles */
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-image {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    background: transparent;
+}
+
+/* Size Variations */
+.logo-small .logo-image {
+    height: 24px;
+    width: auto;
+}
+
+.logo-medium .logo-image {
+    height: 40px;
+    width: auto;
+}
+
+.logo-large .logo-image {
+    height: 60px;
+    width: auto;
+}
+
+.logo-xlarge .logo-image {
+    height: 300px;
+    width: auto;
+}
+
+/* Logo text styling */
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    text-align: center;
+    margin: 0;
+}
+
+.logo-main {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 5.0rem;
+    font-weight: 700;
+    color: white !important;
+    margin: 0;
+    letter-spacing: 3px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 0.9;
+}
+
+.logo-sub {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: white !important;
+    margin: 0;
+    margin-top: 0.5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .logo-large .logo-image {
+        height: 50px;
+    }
+    
+    .logo-xlarge .logo-image {
+        height: 150px;
+    }
+    
+    .logo-main {
+        font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        line-height: 0.9;
+        color: white !important;
+    }
+    
+    .logo-sub {
+        font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 1.8rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        line-height: 0.9;
+        margin-top: 0.3rem;
+        color: white !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-large .logo-image {
+        height: 40px;
+    }
+    
+    .logo-xlarge .logo-image {
+        height: 100px;
+    }
+    
+    .logo-main {
+        font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        line-height: 0.9;
+        color: white !important;
+    }
+    
+    .logo-sub {
+        font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        line-height: 0.9;
+        margin-top: 0.2rem;
+        color: white !important;
+    }
+}
+
+/* Background variations for transparent logos */
+.logo-bg-light {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 16px 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.logo-bg-dark {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.logo-bg-accent {
+    background-color: rgba(52, 152, 219, 0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+    .logo-main {
+        color: #ecf0f1;
+    }
+    
+    .logo-sub {
+        color: #bdc3c7;
+    }
+}

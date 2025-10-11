@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
+import './TrekList.css';
 
 const TrekList = () => {
     const [treks, setTreks] = useState([]);
@@ -11,13 +12,20 @@ const TrekList = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Available Treks</h1>
-            <ul>
-                {treks.map((trek) => (
-                    <li key={trek.id}>{trek.trek_name} - {trek.trip_grade}</li>
-                ))}
-            </ul>
+        <div className="trek-list-container">
+            <h1 className="trek-list-title">Available Treks</h1>
+            {treks.length === 0 ? (
+                <p className="trek-loading">Loading amazing treks...</p>
+            ) : (
+                <ul className="trek-list">
+                    {treks.map((trek) => (
+                        <li key={trek.id} className="trek-item">
+                            <div className="trek-name">{trek.trek_name}</div>
+                            <div className="trek-grade">{trek.trip_grade}</div>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };

@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
+import './Auth.css';
 
-const Auth = () => {
+const Auth = ({ onAuthSuccess }) => {
+    const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({
         username: '',
@@ -12,6 +15,26 @@ const Auth = () => {
     });
     const [message, setMessage] = useState('');
     const [user, setUser] = useState(null);
+
+    // Check if user is already logged in
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            API.get('user/profile/')
+                .then((response) => {
+                    setUser(response.data);
+                    // If already logged in, redirect to home or return URL
+                    const returnUrl = sessionStorage.getItem('returnUrl') || '/';
+                    sessionStorage.removeItem('returnUrl');
+                    navigate(returnUrl);
+                })
+                .catch((error) => {
+                    console.log('User not authenticated:', error);
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                });
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setFormData({
@@ -68,6 +91,15 @@ const Auth = () => {
                 });
                 setUser(userResponse.data);
                 setMessage('Login successful!');
+                
+                // Navigate back to the previous page or home
+                const returnUrl = sessionStorage.getItem('returnUrl') || '/';
+                sessionStorage.removeItem('returnUrl');
+                navigate(returnUrl);
+                
+                if (onAuthSuccess) {
+                    onAuthSuccess(userResponse.data);
+                }
             } else {
                 // Register
                 console.log('Registration data being sent:', formData);
@@ -120,14 +152,28 @@ const Auth = () => {
     };
 
     return (
-        <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
-            <h2>{isLogin ? 'Login' : 'Register'}</h2>
+        <div className="auth-container">
+            {/* Header */}
+            <div className="auth-back-button">
+                <button
+                    onClick={() => navigate('/')}
+                    className="btn-back"
+                >
+                    ← Back to Home
+                </button>
+            </div>
+
+            {/* Auth Form */}
+            <div className="auth-form-container">
+                <h2 className="auth-title">
+                    🏔️ {isLogin ? 'Welcome Back' : 'Join TrekQuest Nepal'}
+                </h2>
             
             {user && (
-                <div style={{ background: '#e8f5e8', padding: '10px', marginBottom: '20px', borderRadius: '5px' }}>
+                <div className="user-info">
                     <h3>Welcome, {user.first_name}!</h3>
                     <p>Email: {user.email}</p>
-                    <button onClick={handleLogout} style={{ background: '#dc3545', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '3px' }}>
+                    <button onClick={handleLogout} className="btn-logout">
                         Logout
                     </button>
                 </div>
@@ -145,10 +191,10 @@ const Auth = () => {
                 </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="auth-form">
                 {!isLogin && (
                     <>
-                        <div style={{ marginBottom: '10px' }}>
+                        <div className="form-group">
                             <input
                                 type="text"
                                 name="username"
@@ -156,10 +202,10 @@ const Auth = () => {
                                 value={formData.username}
                                 onChange={handleChange}
                                 required
-                                style={{ width: '100%', padding: '8px', marginBottom: '5px' }}
+                                className="form-input"
                             />
                         </div>
-                        <div style={{ marginBottom: '10px' }}>
+                        <div className="form-group">
                             <input
                                 type="text"
                                 name="first_name"
@@ -167,10 +213,10 @@ const Auth = () => {
                                 value={formData.first_name}
                                 onChange={handleChange}
                                 required
-                                style={{ width: '100%', padding: '8px', marginBottom: '5px' }}
+                                className="form-input"
                             />
                         </div>
-                        <div style={{ marginBottom: '10px' }}>
+                        <div className="form-group">
                             <input
                                 type="text"
                                 name="last_name"
@@ -178,10 +224,10 @@ const Auth = () => {
                                 value={formData.last_name}
                                 onChange={handleChange}
                                 required
-                                style={{ width: '100%', padding: '8px', marginBottom: '5px' }}
+                                className="form-input"
                             />
                         </div>
-                        <div style={{ marginBottom: '10px' }}>
+                        <div className="form-group">
                             <input
                                 type="email"
                                 name="email"
@@ -189,14 +235,14 @@ const Auth = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                style={{ width: '100%', padding: '8px', marginBottom: '5px' }}
+                                className="form-input"
                             />
                         </div>
                     </>
                 )}
                 
                 {isLogin && (
-                    <div style={{ marginBottom: '10px' }}>
+                    <div className="form-group">
                         <input
                             type="text"
                             name="username"
@@ -204,12 +250,12 @@ const Auth = () => {
                             value={formData.username}
                             onChange={handleChange}
                             required
-                            style={{ width: '100%', padding: '8px', marginBottom: '5px' }}
+                            className="form-input"
                         />
                     </div>
                 )}
                 
-                <div style={{ marginBottom: '10px' }}>
+                <div className="form-group">
                     <input
                         type="password"
                         name="password"
@@ -217,21 +263,13 @@ const Auth = () => {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        style={{ width: '100%', padding: '8px', marginBottom: '5px' }}
+                        className="form-input"
                     />
                 </div>
                 
                 <button 
                     type="submit" 
-                    style={{ 
-                        width: '100%', 
-                        padding: '10px', 
-                        background: '#007bff', 
-                        color: 'white', 
-                        border: 'none', 
-                        borderRadius: '5px',
-                        marginBottom: '10px'
-                    }}
+                    className="btn-submit"
                 >
                     {isLogin ? 'Login' : 'Register'}
                 </button>
@@ -249,17 +287,17 @@ const Auth = () => {
                     });
                     setMessage('');
                 }}
-                style={{ 
-                    width: '100%', 
-                    padding: '8px', 
-                    background: 'transparent', 
-                    color: '#007bff', 
-                    border: '1px solid #007bff', 
-                    borderRadius: '5px'
-                }}
+                className="btn-toggle"
             >
                 {isLogin ? 'Need an account? Register' : 'Have an account? Login'}
             </button>
+            
+            {message && (
+                <div className={`auth-message ${message.includes('successful') ? 'message-success' : 'message-error'}`}>
+                    {message}
+                </div>
+            )}
+            </div>
         </div>
     );
 };
