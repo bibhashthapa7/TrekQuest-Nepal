@@ -29,12 +29,19 @@
 .user-header {
     padding: 4rem 2rem;
     text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(5px);
     min-height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.user-header-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .user-header-content {
@@ -161,8 +168,14 @@
 }
 
 .profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
 }
 
@@ -367,6 +380,10 @@
         min-height: 40vh;
     }
     
+    .user-header-section {
+        padding: 1.5rem;
+    }
+    
     .user-title {
         font-size: 2.5rem;
     }
@@ -408,6 +425,10 @@
         padding: 1.5rem 0.5rem;
     }
     
+    .user-header-section {
+        padding: 1rem;
+    }
+    
     .user-title {
         font-size: 2rem;
     }
@@ -426,5 +447,241 @@
     
     .profile-header h2, .user-stats h2 {
         font-size: 1.5rem;
+    }
+}
+
+/* Trekking Profile Styles */
+.trekking-profile {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.trekking-profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.trekking-profile-header h2 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.trekking-profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.trekking-profile-details .profile-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.bio-row {
+    grid-template-columns: 1fr !important;
+}
+
+.trekking-profile-details .profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.trekking-profile-details .profile-field label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    font-size: 0.9rem;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.trekking-profile-details .profile-field span {
+    color: white;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+}
+
+.profile-textarea {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 1rem;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+}
+
+.profile-textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.profile-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.experience-badge, .fitness-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    text-align: center;
+    max-width: 150px;
+}
+
+.fitness-badge {
+    background: rgba(39, 174, 96, 0.2);
+    color: #27ae60;
+    border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+
+.bio-text {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    min-height: 60px;
+    line-height: 1.5;
+}
+
+/* Responsive Design for Trekking Profile */
+@media (max-width: 768px) {
+    .trekking-profile {
+        padding: 1.5rem;
+    }
+    
+    .trekking-profile-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .profile-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .trekking-profile-details .profile-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .trekking-profile-header h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .trekking-profile {
+        padding: 1rem;
+    }
+    
+    .trekking-profile-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .experience-badge, .fitness-badge {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* Delete Account Section */
+.delete-account-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.delete-account-section h2 {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.delete-warning {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.5;
+}
+
+.delete-account-btn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+.delete-account-btn:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.delete-account-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(231, 76, 60, 0.3);
+}
+
+/* Responsive Design for Delete Account */
+@media (max-width: 768px) {
+    .delete-account-section {
+        padding: 1.5rem;
+    }
+    
+    .delete-account-section h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .delete-account-section {
+        padding: 1rem;
+    }
+    
+    .delete-account-section h2 {
+        font-size: 1.3rem;
+    }
+    
+    .delete-account-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
     }
 }

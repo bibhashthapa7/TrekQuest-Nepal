@@ -14,12 +14,21 @@ const AdminProfile = () => {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isSticky, setIsSticky] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchUserProfile();
         fetchAdminStats();
+        
+        // Add scroll listener for sticky nav
+        const handleScroll = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            setIsSticky(scrollTop > 100);
+        };
 
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const fetchUserProfile = async () => {
@@ -83,12 +92,44 @@ const AdminProfile = () => {
         navigate('/');
     };
 
-    const handleDeleteAccount = () => {
+    const handleDeleteAccount = async () => {
         if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-            // TODO: Implement account deletion API call
-            console.log('Account deletion requested');
-            // For now, just logout
-            handleLogout();
+            const password = prompt('Please enter your password to confirm account deletion:');
+            if (!password) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('access_token');
+                if (!token) {
+                    navigate('/auth');
+                    return;
+                }
+
+                const response = await fetch('http://localhost:8000/auth/users/me/', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_password: password
+                    }),
+                });
+
+                if (response.ok) {
+                    alert('Account deleted successfully');
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    navigate('/');
+                } else {
+                    const errorData = await response.json();
+                    alert(`Failed to delete account: ${errorData.detail || 'Unknown error'}`);
+                }
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                alert('Failed to delete account. Please try again.');
+            }
         }
     };
 
@@ -115,23 +156,27 @@ const AdminProfile = () => {
             style={{ '--background-image': `url(${backgroundImage})` }}
         >
             {/* Navigation Bar */}
-            <Navigation activePage="admin" />
+            <Navigation activePage="admin" isSticky={isSticky} />
 
             {/* Admin Header */}
             <div className="admin-header">
-                <div className="admin-header-content">
-                    <h1 className="admin-title">Admin Dashboard</h1>
-                    <p className="admin-subtitle">Welcome back, {user?.first_name || user?.username}</p>
-                    <button className="admin-logout-btn" onClick={handleLogout}>
-                        Log Out
-                    </button>
+                <div className="admin-header-section">
+                    <div className="admin-header-content">
+                        <h1 className="admin-title">Admin Dashboard</h1>
+                        <p className="admin-subtitle">Welcome back, {user?.first_name || user?.username}</p>
+                        <button className="admin-logout-btn" onClick={handleLogout}>
+                            Log Out
+                        </button>
+                    </div>
                 </div>
             </div>
 
             {/* Main Content */}
             <div className="admin-content">
                 {/* Quick Stats */}
-                <div className="stats-grid">
+                <div className="admin-stats-section">
+                    <h2>Dashboard Statistics</h2>
+                    <div className="stats-grid">
                     <div className="stat-card">
                         <div className="stat-icon">👥</div>
                         <div className="stat-info">
@@ -152,6 +197,7 @@ const AdminProfile = () => {
                             <h3>{stats.totalFavorites}</h3>
                             <p>Total Favorites</p>
                         </div>
+                    </div>
                     </div>
                 </div>
 

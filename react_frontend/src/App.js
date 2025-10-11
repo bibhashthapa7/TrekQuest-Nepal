@@ -4,6 +4,7 @@ import MainPage from './components/MainPage';
 import Auth from './components/Auth';
 import AdminProfile from './components/AdminProfile';
 import UserProfile from './components/UserProfile';
+import Treks from './components/Treks';
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/admin" element={<AdminProfile />} />
                 <Route path="/profile" element={<UserProfile />} />
+                <Route path="/treks" element={<Treks />} />
             </Routes>
         </Router>
     );

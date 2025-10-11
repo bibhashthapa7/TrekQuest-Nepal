@@ -79,8 +79,7 @@ const Navigation = ({ activePage = 'home', isSticky = false }) => {
                 navigate('/');
                 break;
             case 'treks':
-                // TODO: Navigate to treks page when implemented
-                console.log('Treks page not implemented yet');
+                navigate('/treks');
                 break;
             case 'about':
                 // TODO: Navigate to about page when implemented
@@ -120,7 +119,7 @@ const Navigation = ({ activePage = 'home', isSticky = false }) => {
                         >
                             {user.is_staff ? 'Admin Profile' : 'Profile'}
                         </button>
-                        {showProfileDropdown && activePage !== 'admin' && activePage !== 'profile' && (
+                        {showProfileDropdown && (
                             <div className="profile-dropdown">
                                 <button className="dropdown-item" onClick={handleViewProfile}>
                                     View Profile
