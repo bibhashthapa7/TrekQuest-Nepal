@@ -1,10 +1,10 @@
 /* User Profile Container */
 .user-profile-container {
     min-height: 100vh;
-    background: var(--background-image);
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), var(--background-image);
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-position: center 20%;
+    background-repeat: no-repeat;
     font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     position: relative;
 }
@@ -16,7 +16,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 100%);
     z-index: 1;
 }
 
