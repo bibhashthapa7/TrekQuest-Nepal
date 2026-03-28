@@ -143,6 +143,115 @@ const LocationDropdown = ({ options, selected, onToggle }) => {
     );
 };
 
+// WMO weather interpretation codes → label + emoji
+const WMO_CODES = {
+    0: ['Clear sky', '☀️'],
+    1: ['Mainly clear', '🌤️'], 2: ['Partly cloudy', '⛅'], 3: ['Overcast', '☁️'],
+    45: ['Fog', '🌫️'], 48: ['Icy fog', '🌫️'],
+    51: ['Light drizzle', '🌦️'], 53: ['Drizzle', '🌦️'], 55: ['Heavy drizzle', '🌧️'],
+    61: ['Slight rain', '🌧️'], 63: ['Moderate rain', '🌧️'], 65: ['Heavy rain', '🌧️'],
+    71: ['Slight snow', '🌨️'], 73: ['Moderate snow', '❄️'], 75: ['Heavy snow', '❄️'],
+    77: ['Snow grains', '❄️'],
+    80: ['Slight showers', '🌦️'], 81: ['Showers', '🌧️'], 82: ['Violent showers', '⛈️'],
+    85: ['Snow showers', '🌨️'], 86: ['Heavy snow showers', '❄️'],
+    95: ['Thunderstorm', '⛈️'], 96: ['Thunderstorm + hail', '⛈️'], 99: ['Thunderstorm + hail', '⛈️'],
+};
+
+const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+const WeatherWidget = ({ lat, lng, trekId }) => {
+    const [weather, setWeather] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [err, setErr] = useState(false);
+
+    useEffect(() => {
+        if (!lat || !lng) { setLoading(false); return; }
+        setLoading(true);
+        setErr(false);
+        setWeather(null);
+        fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}` +
+            `&current_weather=true` +
+            `&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode` +
+            `&timezone=auto&forecast_days=7`
+        )
+            .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+            .then(data => { setWeather(data); setLoading(false); })
+            .catch(() => { setErr(true); setLoading(false); });
+    }, [trekId]); // re-fetch when drawer opens a different trek
+
+    if (!lat || !lng) {
+        return (
+            <div className="weather-unavailable">
+                <span>🌡️</span>
+                <span>Weather data unavailable — no coordinates on file</span>
+            </div>
+        );
+    }
+
+    if (loading) {
+        return <div className="weather-loading">Loading weather…</div>;
+    }
+
+    if (err || !weather) {
+        return (
+            <div className="weather-unavailable">
+                <span>⚠️</span>
+                <span>Could not load weather data</span>
+            </div>
+        );
+    }
+
+    const cw = weather.current_weather;
+    const [cwLabel, cwEmoji] = WMO_CODES[cw.weathercode] || ['Unknown', '🌡️'];
+    const daily = weather.daily;
+
+    return (
+        <div className="weather-widget">
+            <h4 className="weather-title">Current Weather</h4>
+
+            {/* Current conditions */}
+            <div className="weather-current">
+                <span className="weather-emoji">{cwEmoji}</span>
+                <div className="weather-current-info">
+                    <span className="weather-temp">{Math.round(cw.temperature)}°C</span>
+                    <span className="weather-condition">{cwLabel}</span>
+                </div>
+                <div className="weather-wind">
+                    <span className="weather-wind-icon">💨</span>
+                    <span>{Math.round(cw.windspeed)} km/h</span>
+                </div>
+            </div>
+
+            {/* 7-day forecast */}
+            <div className="weather-forecast">
+                {daily.time.map((dateStr, i) => {
+                    const [, emoji] = WMO_CODES[daily.weathercode[i]] || ['', '🌡️'];
+                    const dayName = i === 0 ? 'Today' : DAY_NAMES[new Date(dateStr).getDay()];
+                    const hi = Math.round(daily.temperature_2m_max[i]);
+                    const lo = Math.round(daily.temperature_2m_min[i]);
+                    const rain = daily.precipitation_sum[i];
+                    return (
+                        <div key={dateStr} className="forecast-day">
+                            <div className="forecast-left">
+                                <span className="forecast-name">{dayName}</span>
+                                <span className="forecast-icon">{emoji}</span>
+                            </div>
+                            <div className="forecast-right">
+                                <span className="forecast-hi">{hi}°</span>
+                                <span className="forecast-lo">{lo}°</span>
+                                <span className="forecast-rain">
+                                    {rain > 0 ? `💧 ${rain.toFixed(1)}` : ''}
+                                </span>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
 const TrekDrawer = ({ trek, onClose }) => {
     if (!trek) return null;
 
@@ -195,6 +304,12 @@ const TrekDrawer = ({ trek, onClose }) => {
                             <p>{trek.description}</p>
                         </div>
                     )}
+
+                    <WeatherWidget
+                        lat={trek.coordinates_lat}
+                        lng={trek.coordinates_lng}
+                        trekId={trek.id}
+                    />
                 </div>
             </div>
         </>
