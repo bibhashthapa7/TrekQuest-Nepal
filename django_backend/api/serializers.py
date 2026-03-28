@@ -29,8 +29,10 @@ class TrekSerializer(serializers.ModelSerializer):
         model = Trek
         fields = ['id', 'trek_name', 'description', 'cost_range', 'duration', 'trip_grade',
                  'max_altitude', 'total_distance', 'best_travel_time', 'location',
-                 'coordinates_lat', 'coordinates_lng', 'featured_image', 'created_at',
-                 'updated_at', 'is_favorited']
+                 'coordinates_lat', 'coordinates_lng', 'featured_image',
+                 'cost_min', 'cost_max', 'altitude_m', 'distance_km',
+                 'duration_days_min', 'duration_days_max', 'route_geojson',
+                 'created_at', 'updated_at', 'is_favorited']
         read_only_fields = ['id', 'created_at', 'updated_at']
     
     def get_is_favorited(self, obj):

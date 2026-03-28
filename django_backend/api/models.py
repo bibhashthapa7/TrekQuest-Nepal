@@ -47,6 +47,15 @@ class Trek(models.Model):
     coordinates_lat = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
     coordinates_lng = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
     featured_image = models.ImageField(upload_to='trek_images/', blank=True, null=True)
+    # Numeric fields for accurate filtering and sorting
+    cost_min = models.PositiveIntegerField(blank=True, null=True)
+    cost_max = models.PositiveIntegerField(blank=True, null=True)
+    altitude_m = models.PositiveIntegerField(blank=True, null=True)
+    distance_km = models.DecimalField(max_digits=6, decimal_places=1, blank=True, null=True)
+    duration_days_min = models.PositiveIntegerField(blank=True, null=True)
+    duration_days_max = models.PositiveIntegerField(blank=True, null=True)
+    # GeoJSON route for map rendering
+    route_geojson = models.JSONField(blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -66,6 +66,289 @@
     margin-top: 2rem;
 }
 
+/* ───────────────────────────── Filter Bar ───────────────────────────── */
+
+.filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.filter-search-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.filter-search {
+    flex: 1;
+    padding: 0.65rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.filter-search::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.filter-search:focus {
+    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.filter-controls-row {
+    display: flex;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+}
+
+.filter-select,
+.filter-input {
+    padding: 0.55rem 0.85rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    min-width: 0;
+}
+
+.filter-select {
+    width: 160px;
+    height: 50px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.5)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2rem;
+}
+
+.filter-select option {
+    background: #1a2030;
+    color: white;
+}
+
+.filter-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.filter-select:focus,
+.filter-input:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.filter-clear-btn {
+    padding: 0.55rem 1rem;
+    background: rgba(229, 62, 62, 0.2);
+    border: 1px solid rgba(229, 62, 62, 0.4);
+    border-radius: 8px;
+    color: #feb2b2;
+    font-size: 0.83rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.filter-clear-btn:hover {
+    background: rgba(229, 62, 62, 0.32);
+}
+
+/* Budget range */
+.filter-cost-range {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.cost-range-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.cost-range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.filter-cost-input {
+    width: 80px;
+    padding: 0.5rem 0.6rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    -moz-appearance: textfield;
+}
+
+.filter-cost-input::-webkit-outer-spin-button,
+.filter-cost-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.filter-cost-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.filter-cost-input:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.cost-range-sep {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+}
+
+/* Location multi-select dropdown */
+.filter-dropdown-wrapper {
+    position: relative;
+}
+
+.filter-dropdown-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 160px;
+    height: 50px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+}
+
+.filter-select-active {
+    border-color: rgba(99, 179, 237, 0.6) !important;
+    background: rgba(99, 179, 237, 0.12) !important;
+    color: #bee3f8 !important;
+}
+
+.dropdown-arrow {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
+.filter-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 100%;
+    background: rgba(15, 22, 35, 0.97);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 0.4rem 0;
+    z-index: 50;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    max-height: 260px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.filter-dropdown-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.filter-dropdown-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.filter-dropdown-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.filter-dropdown-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.dropdown-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.dropdown-option:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: white;
+}
+
+/* Radio/check dot shared by all custom dropdowns */
+.dropdown-radio {
+    width: 14px;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.3);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdown-radio.selected {
+    color: #63b3ed;
+}
+
+/* "All …" reset row in single-select */
+.dropdown-option-reset {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 0.25rem;
+    color: rgba(255, 255, 255, 0.45) !important;
+    font-style: italic;
+}
+
+.treks-count {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.82rem;
+    margin: 0 0 1rem 0;
+}
+
+/* Empty state */
+.treks-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.treks-empty p {
+    font-size: 1rem;
+    margin: 0;
+}
+
 /* Trek Card */
 .trek-card {
     background: rgba(255, 255, 255, 0.1);
@@ -119,6 +402,8 @@
     margin: 0;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.35;
+    min-height: calc(2 * 1.35 * 1.3rem); /* reserve 2 lines so badges align across cards */
 }
 
 .trek-location {

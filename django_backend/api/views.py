@@ -2,15 +2,22 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.models import User
 from .models import Trek, UserFavorite, UserProfile
 from .serializers import TrekSerializer, UserSerializer, UserFavoriteSerializer, UserProfileSerializer
+from .filters import TrekFilter
 from datetime import datetime, timedelta
 
 class TrekListCreateView(generics.ListCreateAPIView):
     queryset = Trek.objects.all()
     serializer_class = TrekSerializer
     permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = TrekFilter
+    search_fields = ['trek_name', 'location']
+    ordering_fields = ['trek_name', 'max_altitude', 'duration']
 
 class TrekDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trek.objects.all()
