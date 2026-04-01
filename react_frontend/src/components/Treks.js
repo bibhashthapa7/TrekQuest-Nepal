@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Navigation from './Navigation';
 import backgroundImage from '../assets/images/background.png';
 import './Treks.css';
+import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
+import L from 'leaflet';
+
+// Fix Leaflet's broken default marker icons when bundled with webpack/CRA
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
 
 // Sort grades by logical difficulty order rather than alphabetically
 const GRADE_ORDER = ['easy', 'easy-moderate', 'moderate', 'moderate-difficult', 'difficult', 'strenuous', 'challenging', 'extreme'];
@@ -252,6 +262,43 @@ const WeatherWidget = ({ lat, lng, trekId }) => {
     );
 };
 
+const TrekMap = ({ lat, lng, trekName, routeGeoJson }) => {
+    if (!lat || !lng) {
+        return (
+            <div className="map-unavailable">
+                <span>🗺️</span>
+                <span>Map unavailable — no coordinates on file</span>
+            </div>
+        );
+    }
+
+    return (
+        <div className="trek-map-wrapper">
+            <MapContainer
+                center={[lat, lng]}
+                zoom={9}
+                scrollWheelZoom={false}
+                className="trek-map"
+                key={`${lat}-${lng}`}
+            >
+                <TileLayer
+                    url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+                />
+                {routeGeoJson && (
+                    <GeoJSON
+                        data={routeGeoJson}
+                        style={{ color: '#63b3ed', weight: 3, opacity: 0.85 }}
+                    />
+                )}
+                <Marker position={[lat, lng]}>
+                    <Popup>{trekName}</Popup>
+                </Marker>
+            </MapContainer>
+        </div>
+    );
+};
+
 const TrekDrawer = ({ trek, onClose }) => {
     if (!trek) return null;
 
@@ -304,6 +351,16 @@ const TrekDrawer = ({ trek, onClose }) => {
                             <p>{trek.description}</p>
                         </div>
                     )}
+
+                    <div className="drawer-section">
+                        <h4 className="drawer-section-label">Location</h4>
+                        <TrekMap
+                            lat={trek.coordinates_lat}
+                            lng={trek.coordinates_lng}
+                            trekName={trek.trek_name}
+                            routeGeoJson={trek.route_geojson}
+                        />
+                    </div>
 
                     <WeatherWidget
                         lat={trek.coordinates_lat}

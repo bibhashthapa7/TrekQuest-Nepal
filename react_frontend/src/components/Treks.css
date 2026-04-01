@@ -657,6 +657,71 @@
     margin: 0;
 }
 
+/* ───────────────────────────── Map ───────────────────────────── */
+
+.drawer-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.drawer-section-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+}
+
+.trek-map-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.trek-map {
+    height: 220px;
+    width: 100%;
+}
+
+/* Override Leaflet's popup to match dark theme */
+.leaflet-popup-content-wrapper {
+    background: rgba(15, 22, 35, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.leaflet-popup-tip {
+    background: rgba(15, 22, 35, 0.95);
+}
+
+.leaflet-popup-content {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 0.5rem 0.75rem;
+}
+
+.leaflet-popup-close-button {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.map-unavailable {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.82rem;
+    font-style: italic;
+    padding: 0.5rem 0;
+}
+
 /* ───────────────────────────── Weather Widget ───────────────────────────── */
 
 .weather-widget {
