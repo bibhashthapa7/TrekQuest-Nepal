@@ -36,75 +36,7 @@
 
 ---
 
-## 2. Frontend Component Tree
-
-```
-App.js  (React Router)
-│
-├── /                   MainPage.js
-├── /auth               Auth.js
-├── /treks              Treks.js
-│                         ├── Navigation.js
-│                         ├── Filter bar
-│                         │     ├── SingleSelectDropdown  (Grade, Season, Duration, Distance)
-│                         │     └── LocationDropdown      (multi-select regions)
-│                         ├── Trek cards grid
-│                         └── TrekDrawer.js  ──────────────┐
-│                                                           │  shared component
-├── /recommend          Recommend.js                       │
-│                         ├── Navigation.js                │
-│                         ├── Logged-out gate              │
-│                         ├── Preference chips form        │
-│                         ├── Result cards                 │
-│                         └── TrekDrawer.js  ──────────────┘
-│
-├── /profile            UserProfile.js
-│                         └── Navigation.js
-│
-└── /admin              AdminProfile.js
-                          └── Navigation.js
-
-─────────────────────────────────────────────────
-TrekDrawer.js  (shared, used by Treks + Recommend)
-  ├── Stat grid
-  ├── Description
-  ├── TrekMap          (React-Leaflet, CartoDB tiles, GeoJSON route polyline)
-  └── WeatherWidget    (Open-Meteo API, current + 7-day forecast)
-```
-
----
-
-## 3. Backend Layer Map
-
-```
-django_backend/
-│
-├── django_backend/settings.py      ← config, INSTALLED_APPS, JWT settings
-│
-└── api/
-    ├── models.py                   ← data layer
-    │     ├── Trek                  (51 treks, full schema)
-    │     ├── UserProfile           (extends Django User)
-    │     ├── UserFavorite          (user ↔ trek junction)
-    │     └── RecommendationRequest (rate-limit log)
-    │
-    ├── serializers.py              ← DRF serializers (JSON ↔ model)
-    ├── filters.py                  ← TrekFilter (django-filter)
-    │
-    └── views.py                    ← business logic
-          ├── TrekListCreateView    GET/POST  /api/treks/
-          ├── TrekDetailView        GET/PUT   /api/treks/<id>/
-          ├── UserProfileView       GET       /api/user/profile/
-          ├── UserProfileUpdateView PATCH     /api/user/profile/update/
-          ├── user_favorites        GET/POST  /api/user/favorites/
-          ├── remove_favorite       DELETE    /api/user/favorites/<id>/
-          ├── admin_stats           GET       /api/admin/stats/
-          └── get_recommendations   POST      /api/recommendations/
-```
-
----
-
-## 4. Database Schema
+## 2. Database Schema
 
 ```
 ┌─────────────────────────────────┐
@@ -160,7 +92,7 @@ django_backend/
 
 ---
 
-## 5. Recommendation Request Flow
+## 3. Recommendation Request Flow
 
 ```
 User submits preferences
@@ -221,7 +153,7 @@ POST /api/recommendations/
 
 ---
 
-## 6. Authentication Flow
+## 4. Authentication Flow
 
 ```
 Login / Register
@@ -249,7 +181,7 @@ POST /auth/jwt/create/
 
 ---
 
-## 7. Key Tech Decisions
+## 5. Key Tech Decisions
 
 | Decision | Choice | Reason |
 |---|---|---|
@@ -261,4 +193,3 @@ POST /auth/jwt/create/
 | AI model | Claude Haiku | Cheapest/fastest, sufficient for structured lookup |
 | Route data | Seeded GeoJSON waypoints | Works for all 51 treks, no OSM parsing complexity |
 | Trek data | Dual storage (text + numeric) | Text for display, numeric for accurate filtering |
-| Vector DB | Not used | 51 treks is below RAG threshold |

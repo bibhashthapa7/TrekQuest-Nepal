@@ -21,7 +21,7 @@ A full-stack web application for discovering and planning treks in Nepal. Browse
 ## Features
 
 ### Trek Discovery
-- **51 Nepal treks** with descriptions, grades, costs, durations, altitudes, distances, and best travel times
+- **50+ Nepal treks** with descriptions, grades, costs, durations, altitudes, distances, and best travel times
 - **Rich trek cards** with grade-coloured difficulty badges and duration badges
 - **Slide-in detail drawer** showing full stats, description, interactive map, and live weather
 
@@ -35,13 +35,12 @@ A full-stack web application for discovering and planning treks in Nepal. Browse
 ### Interactive Maps
 - Per-trek route map in the drawer using React-Leaflet
 - CartoDB Dark Matter tiles (no API key, matches dark theme)
-- GeoJSON route polyline for all 51 treks (seeded waypoints)
+- GeoJSON route polyline for all treks (seeded waypoints)
 - Location marker with trek name popup
 
 ### Weather Widget
 - Live current conditions and 7-day forecast per trek
 - Powered by Open-Meteo using each trek's coordinates
-- WMO weather code → emoji + label mapping
 
 ### AI Recommendations
 - Dedicated `/recommend` page (logged-in users only)
