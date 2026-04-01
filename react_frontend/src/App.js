@@ -5,6 +5,7 @@ import Auth from './components/Auth';
 import AdminProfile from './components/AdminProfile';
 import UserProfile from './components/UserProfile';
 import Treks from './components/Treks';
+import Recommend from './components/Recommend';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/admin" element={<AdminProfile />} />
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/treks" element={<Treks />} />
+                <Route path="/recommend" element={<Recommend />} />
             </Routes>
         </Router>
     );

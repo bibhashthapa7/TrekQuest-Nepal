@@ -92,6 +92,8 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 load_dotenv()
+
+ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

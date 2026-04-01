@@ -16,4 +16,7 @@ urlpatterns = [
     
     # Admin endpoints
     path('admin/stats/', views.admin_stats, name='admin-stats'),
+
+    # AI recommendations
+    path('recommendations/', views.get_recommendations, name='recommendations'),
 ]

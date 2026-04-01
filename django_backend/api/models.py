@@ -62,6 +62,13 @@ class Trek(models.Model):
     def __str__(self):
         return self.trek_name
 
+class RecommendationRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recommendation_requests')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.created_at.date()}"
+
 class UserFavorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
     trek = models.ForeignKey(Trek, on_delete=models.CASCADE, related_name='favorited_by')

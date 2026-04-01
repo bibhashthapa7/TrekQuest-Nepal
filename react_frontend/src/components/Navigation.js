@@ -81,9 +81,8 @@ const Navigation = ({ activePage = 'home', isSticky = false }) => {
             case 'treks':
                 navigate('/treks');
                 break;
-            case 'about':
-                // TODO: Navigate to about page when implemented
-                console.log('About page not implemented yet');
+            case 'recommend':
+                navigate('/recommend');
                 break;
             default:
                 break;
@@ -105,11 +104,11 @@ const Navigation = ({ activePage = 'home', isSticky = false }) => {
                 >
                     Treks
                 </button>
-                <button 
-                    className={`nav-link ${currentActivePage === 'about' ? 'active' : ''}`}
-                    onClick={() => handleNavClick('about')}
+                <button
+                    className={`nav-link ${currentActivePage === 'recommend' ? 'active' : ''}`}
+                    onClick={() => handleNavClick('recommend')}
                 >
-                    About
+                    Recommend
                 </button>
                 {user ? (
                     <div className="profile-dropdown-container">
