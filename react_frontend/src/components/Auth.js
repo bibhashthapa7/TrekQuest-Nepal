@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 import Navigation from './Navigation';
-
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 import backgroundImage from '../assets/images/background.png';
 import './Auth.css';
+
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 const Auth = () => {
     const navigate = useNavigate();

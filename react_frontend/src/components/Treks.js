@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import Navigation from './Navigation';
 import backgroundImage from '../assets/images/background.png';
 import './Treks.css';
+import TrekDrawer, { formatDuration, formatCost, formatAltitude, formatDistance } from './TrekDrawer';
 
 const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-import TrekDrawer, { formatDuration, formatCost, formatAltitude, formatDistance } from './TrekDrawer';
 
 // Sort grades by logical difficulty order rather than alphabetically
 const GRADE_ORDER = ['easy', 'easy-moderate', 'moderate', 'moderate-difficult', 'difficult', 'strenuous', 'challenging', 'extreme'];

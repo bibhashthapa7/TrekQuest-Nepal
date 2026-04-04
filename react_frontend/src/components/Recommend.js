@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
 import TrekDrawer from './TrekDrawer';
 import backgroundImage from '../assets/images/background.png';
+import './Recommend.css';
 
 const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-import './Recommend.css';
 
 const CHIP_OPTIONS = {
     fitness: [

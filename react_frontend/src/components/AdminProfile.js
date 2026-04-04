@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
-
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 import backgroundImage from '../assets/images/background.png';
 import './AdminProfile.css';
+
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 const AdminProfile = () => {
     const [user, setUser] = useState(null);
