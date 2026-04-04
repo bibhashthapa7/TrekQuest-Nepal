@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import Navigation from './Navigation';
 import backgroundImage from '../assets/images/background.png';
 import './Treks.css';
+
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 import TrekDrawer, { formatDuration, formatCost, formatAltitude, formatDistance } from './TrekDrawer';
 
 // Sort grades by logical difficulty order rather than alphabetically
@@ -185,7 +187,7 @@ const Treks = () => {
 
     // Fetch unique grade and location options once on mount
     useEffect(() => {
-        fetch('http://localhost:8000/api/treks/')
+        fetch(`${BASE_URL}/api/treks/`)
             .then(r => r.json())
             .then(data => {
                 const grades = sortGrades([...new Set(data.map(t => t.trip_grade).filter(Boolean))]);
@@ -242,7 +244,7 @@ const Treks = () => {
         setLoading(true);
         try {
             const qs = buildQueryString(currentFilters);
-            const response = await fetch(`http://localhost:8000/api/treks/${qs ? '?' + qs : ''}`);
+            const response = await fetch(`${BASE_URL}/api/treks/${qs ? '?' + qs : ''}`);
             if (response.ok) {
                 const data = await response.json();
                 setTreks(data);

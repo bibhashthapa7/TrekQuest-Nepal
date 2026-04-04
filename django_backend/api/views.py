@@ -119,9 +119,9 @@ def admin_stats(request):
         
         return Response(stats, status=status.HTTP_200_OK)
         
-    except Exception as e:
+    except Exception:
         return Response(
-            {'error': f'Failed to fetch admin stats: {str(e)}'},
+            {'error': 'Failed to fetch admin stats'},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
@@ -227,8 +227,8 @@ def get_recommendations(request):
             {'error': 'Failed to parse recommendation response'},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
-    except Exception as e:
+    except Exception:
         return Response(
-            {'error': str(e)},
+            {'error': 'Failed to generate recommendations'},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )

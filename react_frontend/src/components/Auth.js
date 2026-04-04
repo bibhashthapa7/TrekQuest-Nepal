@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 import Navigation from './Navigation';
+
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 import backgroundImage from '../assets/images/background.png';
 import './Auth.css';
 
@@ -55,7 +57,7 @@ const Auth = () => {
         try {
             if (isLogin) {
                 // Login
-                const response = await fetch('http://localhost:8000/auth/jwt/create/', {
+                const response = await fetch(`${BASE_URL}/auth/jwt/create/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -85,9 +87,7 @@ const Auth = () => {
                 navigate(returnUrl);
             } else {
                 // Register
-                console.log('Registration data being sent:', formData);
-                
-                const response = await fetch('http://localhost:8000/auth/users/', {
+                const response = await fetch(`${BASE_URL}/auth/users/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -97,7 +97,6 @@ const Auth = () => {
                 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    console.log('Registration error:', errorData);
                     
                     // Handle specific validation errors
                     if (errorData.username && errorData.username.includes('already exists')) {
