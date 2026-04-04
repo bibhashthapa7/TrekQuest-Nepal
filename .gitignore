@@ -4,6 +4,7 @@ venv/
 # Environment variables
 .env
 .env.*
+!.env.example
 
 # Project commands text file
 project_commands.txt 

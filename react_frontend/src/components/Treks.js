@@ -5,6 +5,8 @@ import backgroundImage from '../assets/images/background.png';
 import './Treks.css';
 import TrekDrawer, { formatDuration, formatCost, formatAltitude, formatDistance } from './TrekDrawer';
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 // Sort grades by logical difficulty order rather than alphabetically
 const GRADE_ORDER = ['easy', 'easy-moderate', 'moderate', 'moderate-difficult', 'difficult', 'strenuous', 'challenging', 'extreme'];
 const sortGrades = (grades) =>
@@ -185,7 +187,7 @@ const Treks = () => {
 
     // Fetch unique grade and location options once on mount
     useEffect(() => {
-        fetch('http://localhost:8000/api/treks/')
+        fetch(`${BASE_URL}/api/treks/`)
             .then(r => r.json())
             .then(data => {
                 const grades = sortGrades([...new Set(data.map(t => t.trip_grade).filter(Boolean))]);
@@ -242,7 +244,7 @@ const Treks = () => {
         setLoading(true);
         try {
             const qs = buildQueryString(currentFilters);
-            const response = await fetch(`http://localhost:8000/api/treks/${qs ? '?' + qs : ''}`);
+            const response = await fetch(`${BASE_URL}/api/treks/${qs ? '?' + qs : ''}`);
             if (response.ok) {
                 const data = await response.json();
                 setTreks(data);

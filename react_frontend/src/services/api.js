@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 const API = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: `${BASE_URL}/api/`,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -33,7 +35,7 @@ API.interceptors.response.use(
                 try {
                 const refreshToken = localStorage.getItem('refresh_token');
                 if (refreshToken) {
-                    const response = await axios.post('http://localhost:8000/auth/jwt/refresh/', {
+                    const response = await axios.post(`${BASE_URL}/auth/jwt/refresh/`, {
                         refresh: refreshToken
                     });
                     

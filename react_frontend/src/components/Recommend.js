@@ -5,6 +5,8 @@ import TrekDrawer from './TrekDrawer';
 import backgroundImage from '../assets/images/background.png';
 import './Recommend.css';
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 const CHIP_OPTIONS = {
     fitness: [
         { value: 'beginner',     label: 'Beginner' },
@@ -115,7 +117,7 @@ const Recommend = () => {
 
         const token = localStorage.getItem('access_token');
         try {
-            const res = await fetch('http://localhost:8000/api/recommendations/', {
+            const res = await fetch(`${BASE_URL}/api/recommendations/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,7 +150,7 @@ const Recommend = () => {
         setDrawerLoadingName(trekName);
         try {
             const res = await fetch(
-                `http://localhost:8000/api/treks/?search=${encodeURIComponent(trekName)}`
+                `${BASE_URL}/api/treks/?search=${encodeURIComponent(trekName)}`
             );
             const data = await res.json();
             const match = data.find(

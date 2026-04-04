@@ -4,6 +4,8 @@ import Navigation from './Navigation';
 import backgroundImage from '../assets/images/background.png';
 import './AdminProfile.css';
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 const AdminProfile = () => {
     const [user, setUser] = useState(null);
     const [stats, setStats] = useState({
@@ -39,7 +41,7 @@ const AdminProfile = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:8000/api/user/profile/', {
+            const response = await fetch(`${BASE_URL}/api/user/profile/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ const AdminProfile = () => {
     const fetchAdminStats = async () => {
         try {
             const token = localStorage.getItem('access_token');
-            const response = await fetch('http://localhost:8000/api/admin/stats/', {
+            const response = await fetch(`${BASE_URL}/api/admin/stats/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -83,7 +85,7 @@ const AdminProfile = () => {
 
 
     const openDjangoAdmin = () => {
-        window.open('http://localhost:8000/admin/', '_blank');
+        window.open(`${BASE_URL}/admin/`, '_blank');
     };
 
     const handleLogout = () => {
@@ -106,7 +108,7 @@ const AdminProfile = () => {
                     return;
                 }
 
-                const response = await fetch('http://localhost:8000/auth/users/me/', {
+                const response = await fetch(`${BASE_URL}/auth/users/me/`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

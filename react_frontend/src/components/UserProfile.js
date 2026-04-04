@@ -4,6 +4,8 @@ import Navigation from './Navigation';
 import backgroundImage from '../assets/images/background.png';
 import './UserProfile.css';
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+
 const UserProfile = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ const UserProfile = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:8000/api/user/profile/', {
+            const response = await fetch(`${BASE_URL}/api/user/profile/`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -55,7 +57,6 @@ const UserProfile = () => {
 
             if (response.ok) {
                 const userData = await response.json();
-                console.log('User profile data received:', userData);
                 setUser(userData);
                 setEditData({
                     first_name: userData.first_name || '',
@@ -120,7 +121,7 @@ const UserProfile = () => {
     const handleSave = async () => {
         try {
             const token = localStorage.getItem('access_token');
-            const response = await fetch('http://localhost:8000/api/user/profile/', {
+            const response = await fetch(`${BASE_URL}/api/user/profile/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -169,7 +170,7 @@ const UserProfile = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:8000/api/user/profile/update/', {
+            const response = await fetch(`${BASE_URL}/api/user/profile/update/`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -217,7 +218,7 @@ const UserProfile = () => {
                     return;
                 }
 
-                const response = await fetch('http://localhost:8000/auth/users/me/', {
+                const response = await fetch(`${BASE_URL}/auth/users/me/`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

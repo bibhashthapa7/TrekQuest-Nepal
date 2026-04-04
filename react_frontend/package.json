@@ -27,6 +27,15 @@
       "react-app/jest"
     ]
   },
+  "overrides": {
+    "nth-check": ">=2.0.1",
+    "postcss": ">=8.4.31",
+    "serialize-javascript": ">=6.0.2",
+    "webpack-dev-server": ">=4.15.2",
+    "svgo": ">=3.0.2",
+    "css-select": ">=5.1.0",
+    "yaml": ">=2.6.1"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
